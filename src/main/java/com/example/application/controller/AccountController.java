@@ -4,6 +4,7 @@ import com.example.application.dto.AccountDto;
 import com.example.application.dto.SpecificAccDto;
 import com.example.application.service.AccountService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,7 +26,7 @@ public class AccountController {
     }
 
     @GetMapping
-    public List<SpecificAccDto> save() {
+    public List<SpecificAccDto> getAll() {
         return service.getAll();
     }
 }

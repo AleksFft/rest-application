@@ -1,6 +1,7 @@
 package com.example.application.service;
 
-import com.example.application.db.AccountRepository;
+import com.example.application.exception.AccountException;
+import com.example.application.repository.AccountRepository;
 import com.example.application.dto.AccountDto;
 import com.example.application.dto.SpecificAccDto;
 import com.example.application.mapper.AccountMapper;
@@ -15,6 +16,8 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class AccountService {
+
+    private static final String ERROR_MESSAGE = "The pin %d is incorrect";
 
     private final AccountRepository repository;
 
@@ -39,7 +42,7 @@ public class AccountService {
 
     private void validatePin(int pin) {
         if (pin < 1000 || pin > 9999) {
-            throw new  RuntimeException("incorrect pin");
+            throw new AccountException(String.format(ERROR_MESSAGE, pin));
         }
     }
 }
