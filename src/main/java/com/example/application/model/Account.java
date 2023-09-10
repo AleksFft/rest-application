@@ -1,17 +1,10 @@
 package com.example.application.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.math.BigDecimal;
+import javax.persistence.*;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "accounts")
 public class Account {
@@ -25,11 +18,11 @@ public class Account {
     private String name;
 
     @Column(name = "pin", nullable = false)
-    private Integer pin;
+    private String pin;
 
     @Column(name = "account_number", nullable = false, unique = true)
     private Integer accountNumber;
 
-    @Column(name = "balance", nullable = false)
-    private BigDecimal balance;
+    @Column(name = "balance")
+    private Long balance;
 }

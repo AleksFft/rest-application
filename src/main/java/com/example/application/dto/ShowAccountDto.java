@@ -2,10 +2,8 @@ package com.example.application.dto;
 
 import lombok.Data;
 
-import java.math.BigDecimal;
-
 @Data
-public class SpecificAccDto {
+public class ShowAccountDto {
     private String name;
-    private BigDecimal balance;
+    private Long balance;
 }

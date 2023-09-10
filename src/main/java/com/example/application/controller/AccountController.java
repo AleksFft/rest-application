@@ -1,15 +1,13 @@
 package com.example.application.controller;
 
 import com.example.application.dto.AccountDto;
-import com.example.application.dto.SpecificAccDto;
+import com.example.application.dto.DepositDto;
+import com.example.application.dto.ShowAccountDto;
+import com.example.application.dto.TransferDto;
 import com.example.application.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,13 +18,29 @@ public class AccountController {
 
     private final AccountService service;
 
-    @PostMapping(value = "/save")
-    public AccountDto save(@RequestBody AccountDto dto) {
-        return service.save(dto);
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping(value = "/create")
+    public void create(@RequestBody AccountDto dto) {
+        service.create(dto);
+    }
+
+    @PostMapping(value = "/deposit")
+    public void deposit(@RequestBody DepositDto dto) {
+        service.deposit(dto);
+    }
+
+    @PostMapping(value = "/withdraw")
+    public void withdraw(@RequestBody DepositDto dto) {
+        service.withdraw(dto);
+    }
+
+    @PostMapping(value = "/transfer")
+    public void transfer(@RequestBody TransferDto dto) {
+        service.transfer(dto);
     }
 
     @GetMapping
-    public List<SpecificAccDto> getAll() {
+    public List<ShowAccountDto> getAll() {
         return service.getAll();
     }
 }

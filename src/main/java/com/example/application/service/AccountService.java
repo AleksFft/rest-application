@@ -1,11 +1,13 @@
 package com.example.application.service;
 
-import com.example.application.exception.AccountException;
-import com.example.application.repository.AccountRepository;
 import com.example.application.dto.AccountDto;
-import com.example.application.dto.SpecificAccDto;
+import com.example.application.dto.DepositDto;
+import com.example.application.dto.ShowAccountDto;
+import com.example.application.dto.TransferDto;
 import com.example.application.mapper.AccountMapper;
 import com.example.application.model.Account;
+import com.example.application.repository.AccountRepository;
+import com.example.application.validator.Validator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,32 +19,63 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AccountService {
 
-    private static final String ERROR_MESSAGE = "The pin %d is incorrect";
-
     private final AccountRepository repository;
+    private final Validator validator;
 
-    public AccountDto save(AccountDto dto) {
-        validatePin(dto.getPin());
-
+    public void create(AccountDto dto) {
+        validator.validatePin(dto.getPin());
         Account account = AccountMapper.INSTANCE.toEntity(dto);
         account.setAccountNumber(generateAccNumber());
-        return AccountMapper.INSTANCE.toDto(repository.save(account));
+        account.setBalance(0L);
+
+        repository.save(account);
     }
 
-    public List<SpecificAccDto> getAll() {
+    public void deposit(DepositDto dto) {
+        validator.validateBalance(dto.getBalance());
+        Account account = repository.findByName(dto.getName());
+        validator.validatePin(dto.getPin(), account);
+        account.setBalance(account.getBalance() + dto.getBalance());
+
+        repository.save(account);
+    }
+
+    public void withdraw(DepositDto dto) {
+        validator.validateBalance(dto.getBalance());
+        Account account = repository.findByName(dto.getName());
+        validator.validatePin(dto.getPin(), account);
+        validator.validateOnEnoughMoney(dto.getBalance(), account.getBalance());
+        account.setBalance(account.getBalance() - dto.getBalance());
+
+        repository.save(account);
+    }
+
+    public void transfer(TransferDto dto) {
+        Long transferSum = dto.getBalance();
+        validator.validateBalance(transferSum);
+
+        Account sourceAccount = repository.findByName(dto.getSourceAccName());
+        validator.validatePin(dto.getSourceAccPin(), sourceAccount);
+
+        Account destinationAccount = repository.findByName(dto.getName());
+        validator.validatePin(dto.getPin(), destinationAccount);
+        validator.validateOnEnoughMoney(transferSum, sourceAccount.getBalance());
+
+        sourceAccount.setBalance(sourceAccount.getBalance() - transferSum);
+        destinationAccount.setBalance(destinationAccount.getBalance() + transferSum);
+
+        repository.save(sourceAccount);
+        repository.save(destinationAccount);
+    }
+
+    public List<ShowAccountDto> getAll() {
         return repository.findAll()
                 .stream()
-                .map(AccountMapper.INSTANCE::toSpecificDto)
+                .map(AccountMapper.INSTANCE::toShowAccountDto)
                 .collect(Collectors.toList());
     }
 
     private int generateAccNumber() {
         return new Random().nextInt(999_999_999 - 99_999_999 + 1) + 99_999_999;
-    }
-
-    private void validatePin(int pin) {
-        if (pin < 1000 || pin > 9999) {
-            throw new AccountException(String.format(ERROR_MESSAGE, pin));
-        }
     }
 }

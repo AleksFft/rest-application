@@ -1,9 +1,15 @@
 package com.example.application.dto;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
-public class AccountDto extends SpecificAccDto {
-    private Integer pin;
-    private Integer accountNumber;
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class AccountDto {
+    private String name;
+    private String pin;
 }
