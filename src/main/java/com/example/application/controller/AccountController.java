@@ -6,7 +6,6 @@ import com.example.application.dto.ShowAccountDto;
 import com.example.application.dto.TransferDto;
 import com.example.application.service.AccountService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +17,6 @@ public class AccountController {
 
     private final AccountService service;
 
-    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/create")
     public void create(@RequestBody AccountDto dto) {
         service.create(dto);
@@ -41,6 +39,6 @@ public class AccountController {
 
     @GetMapping
     public List<ShowAccountDto> getAll() {
-        return service.getAll();
+        return service.findAll();
     }
 }

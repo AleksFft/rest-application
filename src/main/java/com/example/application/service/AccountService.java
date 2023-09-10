@@ -68,7 +68,7 @@ public class AccountService {
         repository.save(destinationAccount);
     }
 
-    public List<ShowAccountDto> getAll() {
+    public List<ShowAccountDto> findAll() {
         return repository.findAll()
                 .stream()
                 .map(AccountMapper.INSTANCE::toShowAccountDto)

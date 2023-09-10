@@ -20,7 +20,7 @@ public class Account {
     @Column(name = "pin", nullable = false)
     private String pin;
 
-    @Column(name = "account_number", nullable = false, unique = true)
+    @Column(name = "account_number", nullable = false)
     private Integer accountNumber;
 
     @Column(name = "balance")
