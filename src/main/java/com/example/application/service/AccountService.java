@@ -29,6 +29,7 @@ public class AccountService {
         account.setBalance(0L);
 
         repository.save(account);
+
     }
 
     public void deposit(DepositDto dto) {

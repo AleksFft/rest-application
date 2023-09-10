@@ -1,8 +1,10 @@
 package com.example.application.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class ShowAccountDto {
     private String name;
     private Long balance;

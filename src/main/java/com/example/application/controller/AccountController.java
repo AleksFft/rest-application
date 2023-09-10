@@ -1,9 +1,6 @@
 package com.example.application.controller;
 
-import com.example.application.dto.AccountDto;
-import com.example.application.dto.DepositDto;
-import com.example.application.dto.ShowAccountDto;
-import com.example.application.dto.TransferDto;
+import com.example.application.dto.*;
 import com.example.application.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

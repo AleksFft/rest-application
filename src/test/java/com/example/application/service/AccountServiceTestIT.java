@@ -18,7 +18,7 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest
-public class AccountServiceTest extends AbstractTestNGSpringContextTests {
+public class AccountServiceTestIT extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private AccountRepository repository;
